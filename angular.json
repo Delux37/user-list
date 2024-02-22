@@ -69,6 +69,9 @@
               "buildTarget": "user-list:build:development"
             }
           },
+          "options": {
+            "port": 9100
+          },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
