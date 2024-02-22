@@ -4,10 +4,11 @@ import {CommonModule} from "@angular/common";
 import {AppRoutingModule} from "./app-routing.module";
 import {BrowserModule} from "@angular/platform-browser";
 import {StoreModule} from "@ngrx/store";
-import { EffectsModule } from '@ngrx/effects';
+import {EffectsModule} from '@ngrx/effects';
+import {MenuBarComponent} from "./features/ui/menu-bar/menu-bar.component";
 
 @NgModule({
-  imports: [CommonModule, BrowserModule, AppRoutingModule, StoreModule.forRoot({}, {
+  imports: [CommonModule, BrowserModule, AppRoutingModule, MenuBarComponent, StoreModule.forRoot({}, {
     runtimeChecks: {
       strictStateImmutability: true,
       strictActionImmutability: true,
