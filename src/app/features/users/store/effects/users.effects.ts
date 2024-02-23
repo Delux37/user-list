@@ -15,7 +15,10 @@ export class UsersEffects {
     this.actions$.pipe(
       ofType(usersActions.getUsers),
       switchMap(
-        () => this.usersService.fetchUsers().pipe(
+        ({ filters, pagination }) => this.usersService.fetchUsers(
+          filters,
+          pagination
+        ).pipe(
           catchError(() => {
             return of(null)
           }),

@@ -1,0 +1,29 @@
+.input {
+  position: relative;
+  display: inline-block;
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 4px;
+
+  input {
+    border: none;
+    outline: none;
+    width: 100%;
+  }
+
+  label {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    color: #AAA;
+  }
+
+  label.active {
+    top: -20px;
+    left: -5px;
+    transform: scale(0.8);
+  }
+}

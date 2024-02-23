@@ -1,0 +1,4 @@
+<div class="input">
+  <input type="text" (focus)="onFocus()" (blur)="onBlur()" [value]="value()" />
+  <label [class.active]="isActive() || !!value()">{{ placeholder() }}</label>
+</div>

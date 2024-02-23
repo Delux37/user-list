@@ -1,0 +1,25 @@
+<div class="user-list-filter-container">
+  <form class="form" [formGroup]="form">
+    <app-input
+      formControlName="pid"
+      placeholder="PID"
+    >
+    </app-input>
+    <app-input
+      formControlName="lastName"
+      placeholder="Last Name"
+    >
+    </app-input>
+    <app-input
+      formControlName="mobileNumber"
+      placeholder="Mobile Number"
+    >
+    </app-input>
+  </form>
+  <button mat-mini-fab color="primary" (click)="submitSearch()">
+    <mat-icon>search</mat-icon>
+  </button>
+  <button mat-mini-fab color="warn" (click)="resetForm()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
