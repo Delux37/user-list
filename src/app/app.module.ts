@@ -6,9 +6,10 @@ import {BrowserModule} from "@angular/platform-browser";
 import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from '@ngrx/effects';
 import {MenuBarComponent} from "./features/ui/menu-bar/menu-bar.component";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
-  imports: [CommonModule, BrowserModule, AppRoutingModule, MenuBarComponent, StoreModule.forRoot({}, {
+  imports: [CommonModule, BrowserAnimationsModule, BrowserModule, AppRoutingModule, MenuBarComponent, StoreModule.forRoot({}, {
     runtimeChecks: {
       strictStateImmutability: true,
       strictActionImmutability: true,

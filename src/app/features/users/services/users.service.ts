@@ -7,7 +7,7 @@ import {User} from "../models/users.model";
 export class UsersService {
   public fetchUsers(): Observable<User[]> {
     return of(USERS_LIST_MOCK).pipe(
-      delay(5000)
+      delay(1000)
     )
   }
 }

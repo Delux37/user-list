@@ -1,9 +1,51 @@
-<p>Works</p>
+<ng-container *ngIf="(users$ | async) as users">
+  <table mat-table [dataSource]="users">
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-<!--<div *ngIf="(users$ | async) as users; else loading">-->
-<!--  data-->
-<!--</div>-->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+        Loading...
+      </td>
+    </tr>
 
-<!--<ng-template #loading>-->
-<!--  Loading...-->
-<!--</ng-template>-->
+    <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+      <ng-container [ngSwitch]="column">
+        <ng-container *ngSwitchCase="'physicalAddress'">
+          <th mat-header-cell *matHeaderCellDef> {{ 'Address' | appUppercaseCapitalLetter }} </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element[column].country }}
+          </td>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'image'">
+          <th mat-header-cell *matHeaderCellDef> {{ column | appUppercaseCapitalLetter }} </th>
+          <td mat-cell *matCellDef="let element">
+            <img class="image" [src]="element[column]"/>
+          </td>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'sex'">
+          <th mat-header-cell *matHeaderCellDef> {{ column | appUppercaseCapitalLetter }} </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element[column].value }}
+          </td>
+        </ng-container>
+
+        <ng-container *ngSwitchDefault>
+          <th mat-header-cell *matHeaderCellDef> {{ column | appUppercaseCapitalLetter }} </th>
+          <td mat-cell *matCellDef="let element">
+                {{ element[column] }}
+          </td>
+        </ng-container>
+
+      </ng-container>
+    </ng-container>
+  </table>
+
+</ng-container>
+<mat-paginator #paginator
+               [pageSize]="10"
+               [pageSizeOptions]="[5, 10, 20]"
+               >
+</mat-paginator>
