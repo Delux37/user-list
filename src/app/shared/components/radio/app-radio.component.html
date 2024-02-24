@@ -1,0 +1,6 @@
+<div class="radio-group" (click)="onSelect()" [ngClass]="(selectedValue() === value() ? 'checked' : '')">
+  <div class="radio-circle"></div>
+  <div class="radio-label">
+    {{ label() }}
+  </div>
+</div>

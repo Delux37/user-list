@@ -15,8 +15,10 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {UppercaseCapitalLettersPipe} from "../../shared/pipes";
 import {AppInputComponent} from "../../shared/components/input/app-input.component";
 import {MatIcon} from "@angular/material/icon";
-import {MatMiniFabButton} from "@angular/material/button";
+import {MatButton, MatIconButton, MatMiniFabButton} from "@angular/material/button";
 import {ReactiveFormsModule} from "@angular/forms";
+import {AddEditUserDialogComponent} from "./components";
+import {AppRadioComponent} from "../../shared/components/radio/app-radio.component";
 
 @NgModule({
   imports: [
@@ -27,10 +29,13 @@ import {ReactiveFormsModule} from "@angular/forms";
     MatTableModule,
     UppercaseCapitalLettersPipe,
     AppInputComponent,
+    AppRadioComponent,
     ReactiveFormsModule,
     MatIcon,
-    MatMiniFabButton
+    MatMiniFabButton,
+    MatButton,
+    MatIconButton
   ],
-  declarations: [UsersComponent, UserListFiltersComponent]
+  declarations: [UsersComponent, UserListFiltersComponent, AddEditUserDialogComponent]
 })
 export class UsersModule { }

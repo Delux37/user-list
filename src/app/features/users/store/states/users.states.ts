@@ -1,25 +1,15 @@
 import {User} from "../../models/users.model";
+import {EntityState} from "@ngrx/entity";
 
-export interface UsersState {
+export interface UsersState extends EntityState<User> {
   addUserLoading: boolean;
   addUserLoaded: boolean;
   updateUserLoading: boolean;
   updateUserLoaded: boolean;
   deleteUserLoading: boolean;
   deleteUserLoaded: boolean;
-  usersData: User[];
+  totalPage: number;
+  currentUser: User | null;
   usersDataLoaded: boolean;
   usersDataLoading: boolean;
 }
-
-export const initialUserState: UsersState = {
-  addUserLoaded: false,
-  addUserLoading: false,
-  updateUserLoading: false,
-  updateUserLoaded: false,
-  deleteUserLoading: false,
-  deleteUserLoaded: false,
-  usersData: [],
-  usersDataLoaded: false,
-  usersDataLoading: false,
-};
