@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, effect, signal} from "@angular/core";
+import {ChangeDetectionStrategy, Component, effect, OnInit, signal} from "@angular/core";
 import {Store} from "@ngrx/store";
 import {getUsersList, getUsersTotalPage, UsersState} from "../../store";
 import * as userActions from '../../store/actions/users.actions'
@@ -8,13 +8,18 @@ import {IUserListPagination} from "../../models/user-list-pagination.model";
 import {MatDialog} from "@angular/material/dialog";
 import {AddEditUserDialogComponent} from "../../components";
 import {User} from "../../models/users.model";
+import {EventBusService} from "../../../../core/services/event-bus.service";
+import {CONSTANTS} from "../../../../core/configuration/constants";
+import {takeUntil, tap} from "rxjs";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {Destroyable} from "../../../../shared/class/destroyable.class";
 
 @Component({
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UsersComponent {
+export class UsersComponent extends Destroyable implements OnInit {
   public page = signal<IUserListPagination>({ pageSize: 10, pageIndex: 0 })
   public listFilters = signal<UserListFilterFormValueModel | {}>({ });
   public displayedColumns: string[] = ['image', 'identificationNumber', 'name', 'lastName', 'sex', 'mobileNumber', 'physicalAddress', 'actions'];
@@ -23,8 +28,10 @@ export class UsersComponent {
 
   constructor(
     private store: Store<UsersState>,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private eventBus: EventBusService
   ) {
+    super();
     effect(() => {
       const filters = this.listFilters() as UserListFilterFormValueModel;
       const pagination = this.page();
@@ -34,6 +41,15 @@ export class UsersComponent {
         pagination
       }));
     }, { allowSignalWrites: true });
+  }
+
+  public ngOnInit(): void {
+    this.eventBus.on(CONSTANTS.EVENT.DIALOGS.OPEN_USER_ADD_DIALOG)
+      .pipe(
+        takeUntil(this.destroyed$),
+        tap(() => this.openDialog())
+      )
+      .subscribe()
   }
 
   public handlePageEvent({ pageSize, pageIndex }: PageEvent) {

@@ -1,5 +1,5 @@
 <mat-toolbar>
-  <a mat-button [routerLink]="menuItem.link" routerLinkActive="active-link" color="primary" class="button" *ngFor="let menuItem of menuItems">
+  <a mat-button [routerLink]="menuItem.link" (click)="menuItem.click ? menuItem.click() : ''" routerLinkActive="active-link" color="primary" class="button" *ngFor="let menuItem of menuItems">
     <mat-icon>{{ menuItem.icon }}</mat-icon>
     {{ menuItem.text }}
   </a>

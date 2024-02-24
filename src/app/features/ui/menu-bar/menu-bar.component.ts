@@ -1,9 +1,11 @@
-import {ChangeDetectionStrategy, Component} from "@angular/core";
+import {ChangeDetectionStrategy, Component, inject} from "@angular/core";
 import {MatToolbar} from "@angular/material/toolbar";
 import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatButtonModule, MatFabAnchor} from "@angular/material/button";
 import {RouterModule} from "@angular/router";
 import {CommonModule} from "@angular/common";
+import {EventBusService} from "../../../core/services/event-bus.service";
+import {CONSTANTS} from "../../../core/configuration/constants";
 
 @Component({
   selector: 'app-menu-bar',
@@ -14,6 +16,8 @@ import {CommonModule} from "@angular/common";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MenuBarComponent {
+  private eventBus = inject(EventBusService);
+
   public menuItems = [
     {
       text: 'Users list',
@@ -23,7 +27,8 @@ export class MenuBarComponent {
     {
       text: 'Add user',
       icon: 'add_circle',
-      link: ''
+      link: '',
+      click: () => this.eventBus.emit(CONSTANTS.EVENT.DIALOGS.OPEN_USER_ADD_DIALOG)
     }
   ]
 }

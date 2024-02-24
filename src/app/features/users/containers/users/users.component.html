@@ -1,6 +1,5 @@
 <app-user-list-filters (emitSubmitSearch)="applyFilters($event)" (refreshEmit)="onRefreshList()">
 </app-user-list-filters>
-<p (click)="onAddUser()">Add USER</p>
 <ng-container *ngIf="(users$ | async) as users">
   <table mat-table [dataSource]="users">
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
