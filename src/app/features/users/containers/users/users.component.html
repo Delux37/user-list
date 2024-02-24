@@ -1,4 +1,4 @@
-<app-user-list-filters (emitSubmitSearch)="applyFilters($event)">
+<app-user-list-filters (emitSubmitSearch)="applyFilters($event)" (refreshEmit)="onRefreshList()">
 </app-user-list-filters>
 <p (click)="onAddUser()">Add USER</p>
 <ng-container *ngIf="(users$ | async) as users">

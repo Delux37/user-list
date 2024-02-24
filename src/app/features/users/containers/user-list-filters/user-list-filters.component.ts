@@ -11,6 +11,7 @@ import {UserListFilterFormModel, UserListFilterFormValueModel} from "../../model
 export class UserListFiltersComponent implements OnInit {
   public form!: FormGroup<UserListFilterFormModel>;
   @Output() emitSubmitSearch = new EventEmitter<UserListFilterFormValueModel>();
+  @Output() refreshEmit = new EventEmitter<void>();
 
   constructor(
     private fb: FormBuilder
@@ -39,5 +40,9 @@ export class UserListFiltersComponent implements OnInit {
       this.emitSubmitSearch.emit(
         this.form.value as UserListFilterFormValueModel
       )
+  }
+
+  public onRefresh(): void {
+    this.refreshEmit.emit();
   }
 }

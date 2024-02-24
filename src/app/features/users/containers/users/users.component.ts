@@ -43,6 +43,13 @@ export class UsersComponent {
     })
   }
 
+  public onRefreshList(): void {
+    this.store.dispatch(userActions.getUsers({
+      filters: this.listFilters() as UserListFilterFormValueModel,
+      pagination: this.page()
+    }))
+  }
+
   public applyFilters(value: UserListFilterFormValueModel): void {
     this.listFilters.set(value);
   }
