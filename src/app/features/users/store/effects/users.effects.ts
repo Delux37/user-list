@@ -4,12 +4,14 @@ import {Actions, createEffect, ofType} from "@ngrx/effects";
 import {UsersService} from "../../services/users.service";
 import {catchError, map, of, switchMap} from "rxjs";
 import {User} from "../../models/users.model";
+import {SnackbarService} from "../../../ui/services/snackbar.service";
 
 @Injectable()
 export class UsersEffects {
   constructor(
     private actions$: Actions,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private snackBarService: SnackbarService
   ) { }
 
   getUsers$ = createEffect(() =>
@@ -25,8 +27,9 @@ export class UsersEffects {
           }),
           map((users) => {
             if(users) {
-              return usersActions.getUsersSuccess({ users })
+              return usersActions.getUsersSuccess({ users });
             }
+            this.snackBarService.openSnackbar('Get users fail', 'error')
             return usersActions.getUsersFail
           })
         )
@@ -46,8 +49,10 @@ export class UsersEffects {
           }),
           map((user) => {
             if(user) {
+              this.snackBarService.openSnackbar('User Added Successfully', 'success')
               return usersActions.addUserSuccess({ user })
             }
+            this.snackBarService.openSnackbar('Failed to add user', 'error')
             return usersActions.addUserFail
           })
         )
@@ -67,8 +72,10 @@ export class UsersEffects {
           }),
           map((user) => {
             if(user) {
+              this.snackBarService.openSnackbar('User edited successfully', 'success')
               return usersActions.editUserSuccess({ user })
             }
+            this.snackBarService.openSnackbar('Failed to edit user', 'error')
             return usersActions.editUserFail
           })
         )
@@ -88,8 +95,10 @@ export class UsersEffects {
           }),
           map((user: User | null) => {
             if(user) {
+              this.snackBarService.openSnackbar('User deleted successfully', 'success')
               return usersActions.deleteUserSuccess({ deletedUserId: user.id as number })
             }
+            this.snackBarService.openSnackbar('Failed to delete user', 'error')
             return usersActions.deleteUserFail
           })
         )

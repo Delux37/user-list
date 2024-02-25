@@ -19,6 +19,7 @@ import {MatButton, MatIconButton, MatMiniFabButton} from "@angular/material/butt
 import {ReactiveFormsModule} from "@angular/forms";
 import {AddEditUserDialogComponent} from "./components";
 import {AppRadioComponent} from "../../shared/components/radio/app-radio.component";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ import {AppRadioComponent} from "../../shared/components/radio/app-radio.compone
     MatIcon,
     MatMiniFabButton,
     MatButton,
-    MatIconButton
+    MatIconButton,
+    MatSnackBarModule
   ],
   declarations: [UsersComponent, UserListFiltersComponent, AddEditUserDialogComponent]
 })
