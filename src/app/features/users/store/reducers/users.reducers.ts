@@ -13,11 +13,12 @@ import {
   getUsers,
   getUsersFail,
   getUsersSuccess,
-  refreshUserAddEdit,
+  refreshUserAddEdit, updateCurrentPage,
   updateCurrentUser,
 } from '../actions/users.actions';
 import { User } from '../../models/users.model';
 import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
+import {IUserListPagination} from "../../models/user-list-pagination.model";
 
 export const adapter: EntityAdapter<User> = createEntityAdapter<User>();
 
@@ -32,6 +33,7 @@ export const initialState: UsersState = adapter.getInitialState({
   totalPage: 0,
   usersDataLoaded: false,
   usersDataLoading: false,
+  page: { pageSize: 10, pageIndex: 0 }
 });
 
 export const usersReducers = createReducer<UsersState>(
@@ -68,16 +70,35 @@ export const usersReducers = createReducer<UsersState>(
     addUserLoading: true,
   })),
 
-  on(addUserSuccess, (state, { user }) =>
-    adapter.setAll(
-      [user, ...adapter.getSelectors().selectAll(state).slice(0, -1)],
+  on(addUserSuccess, (state, { user }) => {
+    const hasNextPage = (pageSize: number, pageIndex: number, totalItems: number) => {
+      const totalPages = Math.ceil(totalItems / pageSize);
+
+      return pageIndex < totalPages - 1;
+    }
+
+    let entities = adapter.getSelectors().selectAll(state)
+
+    if(state.page) {
+      console.log(
+        hasNextPage(
+          state.page.pageSize, state.page.pageIndex, state.totalPage)
+      )
+    }
+
+    if(state.page && hasNextPage(state.page.pageSize, state.page.pageIndex, state.totalPage)) {
+      entities = entities.slice(0, -1);
+    }
+
+    return adapter.setAll([user, ...entities],
       {
         ...state,
+        totalPage: state.totalPage + 1,
         addUserLoaded: true,
         addUserLoading: false,
       },
-    ),
-  ),
+    )
+  }),
 
   on(addUserFail, (state) => ({
     ...state,
@@ -138,4 +159,9 @@ export const usersReducers = createReducer<UsersState>(
     addUserLoaded: false,
     updateUserLoaded: false,
   })),
+
+  on(updateCurrentPage, (state, { page }) => ({
+    ...state,
+    page
+  }))
 );

@@ -17,4 +17,5 @@ export enum UsersActionsTypes {
 
   UPDATE_CURRENT_USER = '[Users] UPDATE_CURRENT_USER',
   REFRESH_USER_EDD_EDIT = '[Users] REFRESH_USER_ADD_EDIT',
+  CHANGE_PAGE = '[Users] CHANGE_PAGE'
 }

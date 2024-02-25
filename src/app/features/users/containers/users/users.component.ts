@@ -6,11 +6,10 @@ import {
   signal,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { getUsersList, getUsersTotalPage, UsersState } from '../../store';
+import {getCurrentPage, getUsersList, getUsersListLoading, getUsersTotalPage, UsersState} from '../../store';
 import * as userActions from '../../store/actions/users.actions';
 import { PageEvent } from '@angular/material/paginator';
 import { UserListFilterFormValueModel } from '../../models/user -list-filter-form.model';
-import { IUserListPagination } from '../../models/user-list-pagination.model';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEditUserDialogComponent } from '../../components';
 import { User } from '../../models/users.model';
@@ -18,6 +17,8 @@ import { EventBusService } from '../../../../core/services/event-bus.service';
 import { CONSTANTS } from '../../../../core/configuration/constants';
 import { takeUntil, tap } from 'rxjs';
 import { Destroyable } from '../../../../shared/class/destroyable.class';
+import {toSignal} from "@angular/core/rxjs-interop";
+import {IUserListPagination} from "../../models/user-list-pagination.model";
 
 @Component({
   templateUrl: './users.component.html',
@@ -25,7 +26,6 @@ import { Destroyable } from '../../../../shared/class/destroyable.class';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersComponent extends Destroyable implements OnInit {
-  public page = signal<IUserListPagination>({ pageSize: 10, pageIndex: 0 });
   public listFilters = signal<
     UserListFilterFormValueModel | { [key: string]: unknown }
   >({});
@@ -41,6 +41,9 @@ export class UsersComponent extends Destroyable implements OnInit {
   ];
   public users$ = this.store.select(getUsersList);
   public totalPage$ = this.store.select(getUsersTotalPage);
+  public page$ = this.store.select(getCurrentPage);
+  public loading$ = this.store.select(getUsersListLoading);
+  private page = toSignal(this.page$);
 
   constructor(
     private store: Store<UsersState>,
@@ -51,7 +54,7 @@ export class UsersComponent extends Destroyable implements OnInit {
     effect(
       () => {
         const filters = this.listFilters() as UserListFilterFormValueModel;
-        const pagination = this.page();
+        const pagination = this.page() as IUserListPagination;
 
         this.store.dispatch(
           userActions.getUsers({
@@ -75,17 +78,17 @@ export class UsersComponent extends Destroyable implements OnInit {
   }
 
   public handlePageEvent({ pageSize, pageIndex }: PageEvent) {
-    this.page.set({
-      pageSize,
-      pageIndex,
-    });
+    this.store.dispatch(userActions.updateCurrentPage({ page: {
+        pageSize,
+        pageIndex,
+      } }))
   }
 
   public onRefreshList(): void {
     this.store.dispatch(
       userActions.getUsers({
         filters: this.listFilters() as UserListFilterFormValueModel,
-        pagination: this.page(),
+        pagination: this.page() as IUserListPagination,
       }),
     );
   }

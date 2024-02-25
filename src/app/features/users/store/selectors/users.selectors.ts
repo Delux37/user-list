@@ -9,6 +9,11 @@ export const getUsersList = createSelector(
   adapter.getSelectors().selectAll,
 );
 
+export const getUsersListLoading = createSelector(
+  getUsersFeatureState,
+  (state: UsersState) => state.usersDataLoading
+);
+
 export const getUsersTotalPage = createSelector(
   getUsersFeatureState,
   (state: UsersState) => state.totalPage,
@@ -23,3 +28,8 @@ export const getUserEditAdded = createSelector(
   getUsersFeatureState,
   (state: UsersState) => state.addUserLoaded || state.updateUserLoaded,
 );
+
+export const getCurrentPage = createSelector(
+  getUsersFeatureState,
+  (state: UsersState) => state.page
+)

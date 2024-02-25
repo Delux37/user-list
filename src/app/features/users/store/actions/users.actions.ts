@@ -61,3 +61,8 @@ export const deleteUserFail = createAction(UsersActionsTypes.DELETE_USER_FAIL);
 export const refreshUserAddEdit = createAction(
   UsersActionsTypes.REFRESH_USER_EDD_EDIT,
 );
+
+export const updateCurrentPage = createAction(
+  UsersActionsTypes.CHANGE_PAGE,
+  props<{ page: IUserListPagination | null }>()
+)

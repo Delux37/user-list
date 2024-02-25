@@ -6,7 +6,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
     <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+      <td class="mat-cell" [attr.colspan]="displayedColumns.length" *ngIf="loading$">
         Loading...
       </td>
     </tr>
@@ -51,12 +51,15 @@
       </ng-container>
     </ng-container>
   </table>
-  <mat-paginator #paginator
-         (page)="handlePageEvent($event)"
-         [pageSize]="page().pageSize"
-         [pageSizeOptions]="[5, 10, 20]"
-         [length]="totalPage$ | async"
-                 [pageIndex]="page().pageIndex"
-  >
-  </mat-paginator>
+
+  <ng-container *ngIf="(page$ | async) as page">
+    <mat-paginator #paginator
+       (page)="handlePageEvent($event)"
+       [pageSize]="page.pageSize"
+       [pageSizeOptions]="[5, 10, 20]"
+       [length]="totalPage$ | async"
+       [pageIndex]="page.pageIndex"
+    >
+    </mat-paginator>
+  </ng-container>
 </ng-container>
