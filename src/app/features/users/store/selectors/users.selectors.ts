@@ -18,3 +18,9 @@ export const getCurrentUser = createSelector(
   getUsersFeatureState,
   (state: UsersState) => state.currentUser
 )
+
+export const getUserEditAdded = createSelector(
+  getUsersFeatureState,
+    (state: UsersState) => state.addUserLoaded || state.updateUserLoaded
+)
+

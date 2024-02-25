@@ -1,12 +1,14 @@
-import {ChangeDetectionStrategy, Component} from "@angular/core";
+import {ChangeDetectionStrategy, Component, OnInit} from "@angular/core";
 import { MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {IAddressFormGroup, IUserListAddEditFormModel} from "../../models/user-list-add-edit-form.model";
 import {User} from "../../models/users.model";
 import {Store} from "@ngrx/store";
-import {getCurrentUser, UsersState} from "../../store";
-import {tap} from "rxjs";
+import {getCurrentUser, getUserEditAdded, refreshUserAddEdit, UsersState} from "../../store";
+import {takeUntil, tap} from "rxjs";
 import * as userActions from '../../store/actions/users.actions';
+import {Destroyable} from "../../../../shared/class/destroyable.class";
+import {filter} from "rxjs/operators";
 
 @Component({
   selector: 'app-add-edit-user-dialog',
@@ -14,12 +16,15 @@ import * as userActions from '../../store/actions/users.actions';
   styleUrls: ['./add-edit-user-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddEditUserDialogComponent {
+export class AddEditUserDialogComponent extends Destroyable implements OnInit {
   public form!: FormGroup<IUserListAddEditFormModel>;
   public currentUser$ = this.store.select(
     getCurrentUser
   ).pipe(
     tap((currentUser) => this.selectCurrentUser(currentUser))
+  )
+  public userAddOrEdited$ = this.store.select(
+    getUserEditAdded
   )
 
   constructor(
@@ -27,6 +32,7 @@ export class AddEditUserDialogComponent {
     private fb: FormBuilder,
     private store: Store<UsersState>,
   ) {
+    super();
     this.dialogRef.keydownEvents().subscribe(({ key }) => {
       if (key === 'Escape') {
         this.onClose();
@@ -36,6 +42,17 @@ export class AddEditUserDialogComponent {
     this.dialogRef.backdropClick().subscribe(this.onClose.bind(this));
 
     this.buildForm();
+  }
+
+  public ngOnInit(): void {
+    this.userAddOrEdited$.pipe(
+      takeUntil(this.destroyed$),
+      filter((o) => !!o),
+      tap(() => {
+        this.onClose();
+        this.store.dispatch(userActions.refreshUserAddEdit())
+      })
+    ).subscribe()
   }
 
   public onClose(): void {

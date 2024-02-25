@@ -5,7 +5,7 @@ import {
   addUserSuccess, deleteUser, deleteUserFail, deleteUserSuccess, editUser, editUserFail, editUserSuccess,
   getUsers,
   getUsersFail,
-  getUsersSuccess,
+  getUsersSuccess, refreshUserAddEdit,
   updateCurrentUser
 } from "../actions/users.actions";
 import {User} from "../../models/users.model";
@@ -47,15 +47,12 @@ export const usersReducers = createReducer<UsersState>(
     addUserLoading: true,
   })),
 
-  on(addUserSuccess, (state, { user }) => ({
-    ...adapter.addOne(user, state),
-    ...state,
-    addUserLoaded: true,
-    addUserLoading: false,
-  })),
-
   on(addUserSuccess, (state, { user }) =>
-    adapter.setAll([user, ...adapter.getSelectors().selectAll(state).slice(0, -1)], { ...state})
+    adapter.setAll([user, ...adapter.getSelectors().selectAll(state).slice(0, -1)], {
+      ...state,
+      addUserLoaded: true,
+      addUserLoading: false,
+    })
   ),
 
   on(addUserFail, (state) => ({
@@ -112,4 +109,10 @@ export const usersReducers = createReducer<UsersState>(
     deleteUserLoaded: false,
     deleteUserLoading: false,
   })),
+
+  on(refreshUserAddEdit, (state) => ({
+    ...state,
+    addUserLoaded: false,
+    updateUserLoaded: false
+  }))
 )

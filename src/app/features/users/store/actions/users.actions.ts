@@ -47,3 +47,5 @@ export const deleteUserSuccess = createAction(UsersActionsTypes.DELETE_USER_SUCC
 );
 
 export const deleteUserFail = createAction(UsersActionsTypes.DELETE_USER_FAIL);
+
+export const refreshUserAddEdit = createAction(UsersActionsTypes.REFRESH_USER_EDD_EDIT);
