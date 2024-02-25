@@ -8,9 +8,10 @@ import {EffectsModule} from '@ngrx/effects';
 import {MenuBarComponent} from "./features/ui/menu-bar/menu-bar.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HttpClientModule} from "@angular/common/http";
+import {PageNotFoundComponent} from "./features/ui/page-not-found/page-not-found.component";
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule, BrowserAnimationsModule, BrowserModule, AppRoutingModule, MenuBarComponent, StoreModule.forRoot({}, {
+  imports: [CommonModule, HttpClientModule, BrowserAnimationsModule, PageNotFoundComponent, BrowserModule, AppRoutingModule, MenuBarComponent, StoreModule.forRoot({}, {
     runtimeChecks: {
       strictStateImmutability: true,
       strictActionImmutability: true,
