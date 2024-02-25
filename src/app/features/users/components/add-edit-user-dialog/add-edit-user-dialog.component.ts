@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, Component, OnInit} from "@angular/core";
+import {ChangeDetectionStrategy, Component, OnInit, signal} from "@angular/core";
 import { MatDialogRef} from "@angular/material/dialog";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {IAddressFormGroup, IUserListAddEditFormModel} from "../../models/user-list-add-edit-form.model";
 import {User} from "../../models/users.model";
 import {Store} from "@ngrx/store";
@@ -18,6 +18,7 @@ import {filter} from "rxjs/operators";
 })
 export class AddEditUserDialogComponent extends Destroyable implements OnInit {
   public form!: FormGroup<IUserListAddEditFormModel>;
+  public formSubmitted = signal<boolean>(false);
   public currentUser$ = this.store.select(
     getCurrentUser
   ).pipe(
@@ -61,6 +62,8 @@ export class AddEditUserDialogComponent extends Destroyable implements OnInit {
   }
 
   public onSave(isEditing: boolean, editingUserId: number | undefined): void {
+    this.formSubmitted.set(true);
+
     if(this.form.valid) {
       const user = this.form.value as User;
 
@@ -82,15 +85,15 @@ export class AddEditUserDialogComponent extends Destroyable implements OnInit {
 
   private buildForm(): void {
    this.form = this.fb.group<IUserListAddEditFormModel>({
-     name: this.fb.nonNullable.control(''),
-     lastName: this.fb.nonNullable.control(''),
-     sex: this.fb.control(''),
-     identificationNumber: this.fb.control(null),
-     mobileNumber: this.fb.control(null),
+     name: this.fb.nonNullable.control('', [Validators.required, Validators.minLength(3)]),
+     lastName: this.fb.nonNullable.control('', [Validators.required, Validators.minLength(3)]),
+     sex: this.fb.control('', [Validators.required, Validators.minLength(3)]),
+     identificationNumber: this.fb.control(null, [Validators.required, Validators.minLength(9)]),
+     mobileNumber: this.fb.control(null, [Validators.required, Validators.minLength(9)]),
      physicalAddress: this.fb.group<IAddressFormGroup>({
-       country: this.fb.nonNullable.control(''),
-       city: this.fb.nonNullable.control(''),
-       streetAdress: this.fb.nonNullable.control(''),
+       country: this.fb.nonNullable.control('', [Validators.required, Validators.minLength(3)]),
+       city: this.fb.nonNullable.control('', [Validators.required, Validators.minLength(3)]),
+       streetAdress: this.fb.nonNullable.control('', [Validators.required, Validators.minLength(3)]),
      }),
      image: this.fb.nonNullable.control('https://placekitten.com/451/791')
    })
@@ -102,7 +105,7 @@ export class AddEditUserDialogComponent extends Destroyable implements OnInit {
     }
   }
 
-  public get secControlValue(): string {
+  public get sexControlValue(): string {
     return this.form.get('sex')?.value as string
   }
 }

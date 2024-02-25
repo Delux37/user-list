@@ -12,24 +12,28 @@
       <app-input
         placeholder="First name"
         formControlName="name"
+        [submitted]="formSubmitted()"
       >
 
       </app-input>
       <app-input
         placeholder="Last name"
         formControlName="lastName"
+        [submitted]="formSubmitted()"
       >
 
       </app-input>
       <app-input
         placeholder="Identification number"
         formControlName="identificationNumber"
+        [submitted]="formSubmitted()"
       >
 
       </app-input>
       <app-input
         placeholder="Mobile number"
         formControlName="mobileNumber"
+        [submitted]="formSubmitted()"
       >
 
       </app-input>
@@ -39,18 +43,21 @@
         <app-input
           placeholder="Country"
           formControlName="country"
+          [submitted]="formSubmitted()"
         >
 
         </app-input>
         <app-input
           placeholder="City"
           formControlName="city"
+          [submitted]="formSubmitted()"
         >
 
         </app-input>
         <app-input
           placeholder="Address"
           formControlName="streetAdress"
+          [submitted]="formSubmitted()"
         >
 
         </app-input>
@@ -61,14 +68,16 @@
           label="Female"
           value="female"
           formControlName="sex"
-          [selectedValue]="secControlValue"
+          [selectedValue]="sexControlValue"
+          [submitted]="formSubmitted()"
         >
         </app-radio>
         <app-radio
           label="Male"
           value="male"
           formControlName="sex"
-          [selectedValue]="secControlValue"
+          [submitted]="formSubmitted()"
+          [selectedValue]="sexControlValue"
         >
 
         </app-radio>

@@ -111,6 +111,20 @@
         "streetAdress": "dasssss"
       },
       "image": "https://placekitten.com/451/791"
+    },
+    {
+      "id": "cbc3",
+      "name": "saxeli",
+      "lastName": "gvari",
+      "sex": "male",
+      "identificationNumber": "12312332132",
+      "mobileNumber": "32312321321",
+      "physicalAddress": {
+        "country": "231312",
+        "city": "city",
+        "streetAdress": "address"
+      },
+      "image": "https://placekitten.com/451/791"
     }
   ]
 }

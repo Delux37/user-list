@@ -1,22 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import './assets/styles/reset.scss';
+@import './assets/styles/snackbar.scss';
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-.success-snackbar,
-.success-snackbar .mdc-snackbar__surface{
-  background-color: #98FB98 !important;
-
-  .mdc-snackbar__label {
-    color: #388E38 !important
-  }
-}
-
-.error-snackbar,
-.error-snackbar .mdc-snackbar__surface{
-  background-color: #F8D7DA !important;
-
-  .mdc-snackbar__label {
-    color: #C82333 !important
-  }
-}

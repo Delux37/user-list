@@ -1,6 +1,17 @@
-import {ChangeDetectionStrategy, Component, HostListener, input, signal} from "@angular/core";
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  inject,
+  Injector,
+  input,
+  Self,
+  signal
+} from "@angular/core";
+import {ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl} from "@angular/forms";
 import {COMMON_COMPONENT_PROVIDER_FACTORY} from "../common";
+import {CommonModule, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-input',
@@ -8,17 +19,30 @@ import {COMMON_COMPONENT_PROVIDER_FACTORY} from "../common";
   templateUrl: './app-input.component.html',
   styleUrls: ['./app-input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule
+  ],
   providers: [
     COMMON_COMPONENT_PROVIDER_FACTORY(NG_VALUE_ACCESSOR, AppInputComponent)
   ]
 })
-export class AppInputComponent implements ControlValueAccessor {
+export class AppInputComponent implements ControlValueAccessor, AfterViewInit {
+  public submitted = input<boolean>(false);
   public value = signal<unknown>(null);
   public isActive = signal(false);
   public isDisabled = signal(false);
   public placeholder = input('Placeholder');
+  public ngControl!: NgControl;
   public onChange!: (value: unknown) => void;
   public onTouched!: () => void;
+
+  constructor(
+    private injector: Injector
+  ) { }
+
+  public ngAfterViewInit(): void {
+    this.ngControl = this.injector.get(NgControl);
+  }
 
   @HostListener('input', ['$event'])
   public onInput(input: InputEvent) {

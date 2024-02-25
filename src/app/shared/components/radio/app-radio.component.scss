@@ -3,6 +3,16 @@
   align-items: center;
   cursor: pointer;
 
+  &.error {
+    .radio-circle {
+      border-color: red;
+    }
+
+    .radio-label {
+      color: red;
+    }
+  }
+
   &:hover .radio-circle {
     border-color: #007bff;
   }

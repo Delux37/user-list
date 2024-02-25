@@ -1,4 +1,10 @@
-<div class="input">
+<div class="input" [class.error]="submitted() && ngControl && ngControl.invalid">
   <input type="text" (focus)="onFocus()" (blur)="onBlur()" [value]="value()" />
   <label [class.active]="isActive() || !!value()">{{ placeholder() }}</label>
 </div>
+<p class="input-error-messages" *ngIf="submitted() && ngControl && ngControl.invalid">
+  <span *ngIf="ngControl.errors && ngControl.errors['required']">Field is required</span>
+  <span *ngIf="ngControl.errors && !ngControl.errors['required'] && ngControl.errors['minlength']">
+    Please enter at least {{ ngControl.errors['minlength']['requiredLength'] }} symbol.
+  </span>
+</p>

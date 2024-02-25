@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   Injector,
@@ -19,16 +20,22 @@ import {COMMON_COMPONENT_PROVIDER_FACTORY} from "../common";
     COMMON_COMPONENT_PROVIDER_FACTORY(NG_VALUE_ACCESSOR, AppRadioComponent)
   ]
 })
-export class AppRadioComponent implements ControlValueAccessor {
+export class AppRadioComponent implements ControlValueAccessor, AfterViewInit {
   public value = input<string | boolean | number | null>(null)
   public selectedValue = input<string | boolean | number | null>(null)
   public label = input('');
+  public submitted = input<boolean>(false);
+  public ngControl!: NgControl;
   public onChange!: (value: unknown) => void;
   public onTouched!: () => void;
 
   constructor(
     private injector: Injector
   ) { }
+
+  public ngAfterViewInit(): void {
+    this.ngControl = this.injector.get(NgControl);
+  }
 
   public registerOnChange(fn: (value: unknown) => void): void {
     this.onChange = fn;
