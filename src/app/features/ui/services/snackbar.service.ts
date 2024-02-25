@@ -1,5 +1,5 @@
-import {Injectable} from "@angular/core";
-import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
+import { Injectable } from '@angular/core';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 const successConfig: MatSnackBarConfig = {
   duration: 3000,
@@ -16,12 +16,10 @@ const errorConfig: MatSnackBarConfig = {
 };
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SnackbarService {
-  constructor(
-   private snackBar: MatSnackBar
-  ) { }
+  constructor(private snackBar: MatSnackBar) {}
 
   public openSnackbar(message: string, type: 'success' | 'error'): void {
     const config = type === 'success' ? successConfig : errorConfig;

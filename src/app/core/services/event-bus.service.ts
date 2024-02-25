@@ -1,7 +1,7 @@
 import { filter, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import {IEventBus} from "../models/event-bus.model";
+import { IEventBus } from '../models/event-bus.model';
 
 @Injectable({ providedIn: 'root' })
 export class EventBusService {
@@ -11,14 +11,14 @@ export class EventBusService {
     this.bus = new Subject<IEventBus>();
   }
 
-  emit(key: string, data?: any): void {
+  emit(key: string, data?: unknown): void {
     this.bus.next({ key, data });
   }
 
   on<T>(key: string): Observable<T> {
     return this.bus.asObservable().pipe(
       filter((event: IEventBus) => event.key === key),
-      map((event) => <T>event.data)
+      map((event) => <T>event.data),
     );
   }
 }

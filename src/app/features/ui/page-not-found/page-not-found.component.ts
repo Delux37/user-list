@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {RouterModule} from "@angular/router";
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-page-not-found',
@@ -7,6 +7,6 @@ import {RouterModule} from "@angular/router";
   styleUrls: ['./page-not-found.component.scss'],
   imports: [RouterModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true
+  standalone: true,
 })
 export class PageNotFoundComponent {}

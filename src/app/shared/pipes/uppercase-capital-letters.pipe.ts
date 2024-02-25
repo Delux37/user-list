@@ -1,14 +1,14 @@
-import {Pipe, PipeTransform} from "@angular/core";
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'appUppercaseCapitalLetter',
-  standalone: true
+  standalone: true,
 })
 export class UppercaseCapitalLettersPipe implements PipeTransform {
   public transform(value: string): string {
-     return value
-       .replace(/([A-Z])/g, ' $1')
-       .trim()
-       .toUpperCase()
+    return value
+      .replace(/([A-Z])/g, ' $1')
+      .trim()
+      .toUpperCase();
   }
 }

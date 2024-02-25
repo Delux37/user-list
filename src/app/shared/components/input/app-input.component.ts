@@ -3,15 +3,17 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostListener,
-  inject,
   Injector,
   input,
-  Self,
-  signal
-} from "@angular/core";
-import {ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl} from "@angular/forms";
-import {COMMON_COMPONENT_PROVIDER_FACTORY} from "../common";
-import {CommonModule, NgIf} from "@angular/common";
+  signal,
+} from '@angular/core';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+  NgControl,
+} from '@angular/forms';
+import { COMMON_COMPONENT_PROVIDER_FACTORY } from '../common';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-input',
@@ -19,12 +21,10 @@ import {CommonModule, NgIf} from "@angular/common";
   templateUrl: './app-input.component.html',
   styleUrls: ['./app-input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   providers: [
-    COMMON_COMPONENT_PROVIDER_FACTORY(NG_VALUE_ACCESSOR, AppInputComponent)
-  ]
+    COMMON_COMPONENT_PROVIDER_FACTORY(NG_VALUE_ACCESSOR, AppInputComponent),
+  ],
 })
 export class AppInputComponent implements ControlValueAccessor, AfterViewInit {
   public submitted = input<boolean>(false);
@@ -36,9 +36,7 @@ export class AppInputComponent implements ControlValueAccessor, AfterViewInit {
   public onChange!: (value: unknown) => void;
   public onTouched!: () => void;
 
-  constructor(
-    private injector: Injector
-  ) { }
+  constructor(private injector: Injector) {}
 
   public ngAfterViewInit(): void {
     this.ngControl = this.injector.get(NgControl);
@@ -48,7 +46,7 @@ export class AppInputComponent implements ControlValueAccessor, AfterViewInit {
   public onInput(input: InputEvent) {
     const value = input.target ? (input.target as HTMLInputElement).value : '';
     this.onChange(value);
-    this.value.set(value)
+    this.value.set(value);
   }
 
   public onFocus(): void {
@@ -56,7 +54,7 @@ export class AppInputComponent implements ControlValueAccessor, AfterViewInit {
   }
 
   public onBlur(): void {
-    this.isActive.set(false)
+    this.isActive.set(false);
   }
 
   public registerOnChange(fn: (value: unknown) => void): void {

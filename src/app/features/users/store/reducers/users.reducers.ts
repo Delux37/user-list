@@ -1,15 +1,23 @@
-import {createReducer, on} from "@ngrx/store";
-import {UsersState} from "../states/users.states";
+import { createReducer, on } from '@ngrx/store';
+import { UsersState } from '../states/users.states';
 import {
-  addUser, addUserFail,
-  addUserSuccess, deleteUser, deleteUserFail, deleteUserSuccess, editUser, editUserFail, editUserSuccess,
+  addUser,
+  addUserFail,
+  addUserSuccess,
+  deleteUser,
+  deleteUserFail,
+  deleteUserSuccess,
+  editUser,
+  editUserFail,
+  editUserSuccess,
   getUsers,
   getUsersFail,
-  getUsersSuccess, refreshUserAddEdit,
-  updateCurrentUser
-} from "../actions/users.actions";
-import {User} from "../../models/users.model";
-import {createEntityAdapter, EntityAdapter} from "@ngrx/entity";
+  getUsersSuccess,
+  refreshUserAddEdit,
+  updateCurrentUser,
+} from '../actions/users.actions';
+import { User } from '../../models/users.model';
+import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
 
 export const adapter: EntityAdapter<User> = createEntityAdapter<User>();
 
@@ -24,35 +32,51 @@ export const initialState: UsersState = adapter.getInitialState({
   totalPage: 0,
   usersDataLoaded: false,
   usersDataLoading: false,
-})
+});
 
 export const usersReducers = createReducer<UsersState>(
   initialState,
 
   on(getUsers, (state) => {
-    return adapter.setAll([], { ...state,usersDataLoaded: false, usersDataLoading: true })
+    return adapter.setAll([], {
+      ...state,
+      usersDataLoaded: false,
+      usersDataLoading: true,
+    });
   }),
 
-  on(getUsersSuccess, (state, { users}) => {
-    return adapter.setAll(users.users, { ...state,usersDataLoaded: true, usersDataLoading: false, totalPage: users.totalCount })
+  on(getUsersSuccess, (state, { users }) => {
+    return adapter.setAll(users.users, {
+      ...state,
+      usersDataLoaded: true,
+      usersDataLoading: false,
+      totalPage: users.totalCount,
+    });
   }),
 
   on(getUsersFail, (state) => {
-    return adapter.setAll([], { ...state,usersDataLoaded: false, usersDataLoading: false })
+    return adapter.setAll([], {
+      ...state,
+      usersDataLoaded: false,
+      usersDataLoading: false,
+    });
   }),
 
-  on(addUser, (state, {user}) => ({
+  on(addUser, (state) => ({
     ...state,
     addUserLoaded: false,
     addUserLoading: true,
   })),
 
   on(addUserSuccess, (state, { user }) =>
-    adapter.setAll([user, ...adapter.getSelectors().selectAll(state).slice(0, -1)], {
-      ...state,
-      addUserLoaded: true,
-      addUserLoading: false,
-    })
+    adapter.setAll(
+      [user, ...adapter.getSelectors().selectAll(state).slice(0, -1)],
+      {
+        ...state,
+        addUserLoaded: true,
+        addUserLoading: false,
+      },
+    ),
   ),
 
   on(addUserFail, (state) => ({
@@ -73,7 +97,7 @@ export const usersReducers = createReducer<UsersState>(
         id: (user.id as number).toString(),
         changes: user,
       },
-      state
+      state,
     ),
     updateUserLoading: false,
     updateUserLoaded: true,
@@ -85,13 +109,12 @@ export const usersReducers = createReducer<UsersState>(
     updateUserLoaded: false,
   })),
 
-
-  on(updateCurrentUser, (state: UsersState, { user })=> ({
+  on(updateCurrentUser, (state: UsersState, { user }) => ({
     ...state,
-    currentUser: user
+    currentUser: user,
   })),
 
-  on(deleteUser, (state, {user}) => ({
+  on(deleteUser, (state) => ({
     ...state,
     deleteUserLoaded: false,
     deleteUserLoading: true,
@@ -113,6 +136,6 @@ export const usersReducers = createReducer<UsersState>(
   on(refreshUserAddEdit, (state) => ({
     ...state,
     addUserLoaded: false,
-    updateUserLoaded: false
-  }))
-)
+    updateUserLoaded: false,
+  })),
+);

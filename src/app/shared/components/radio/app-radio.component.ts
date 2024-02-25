@@ -2,12 +2,18 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  HostListener,
   Injector,
   input,
-} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, NgControl} from "@angular/forms";
-import {COMMON_COMPONENT_PROVIDER_FACTORY} from "../common";
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  ControlValueAccessor,
+  FormControl,
+  NG_VALUE_ACCESSOR,
+  NgControl,
+} from '@angular/forms';
+import { COMMON_COMPONENT_PROVIDER_FACTORY } from '../common';
 
 @Component({
   selector: 'app-radio',
@@ -17,21 +23,24 @@ import {COMMON_COMPONENT_PROVIDER_FACTORY} from "../common";
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    COMMON_COMPONENT_PROVIDER_FACTORY(NG_VALUE_ACCESSOR, AppRadioComponent)
-  ]
+    COMMON_COMPONENT_PROVIDER_FACTORY(NG_VALUE_ACCESSOR, AppRadioComponent),
+  ],
 })
 export class AppRadioComponent implements ControlValueAccessor, AfterViewInit {
-  public value = input<string | boolean | number | null>(null)
-  public selectedValue = input<string | boolean | number | null>(null)
+  public value = input<string | boolean | number | null>(null);
+  public selectedValue = input<string | boolean | number | null>(null);
   public label = input('');
   public submitted = input<boolean>(false);
   public ngControl!: NgControl;
   public onChange!: (value: unknown) => void;
   public onTouched!: () => void;
 
-  constructor(
-    private injector: Injector
-  ) { }
+  @HostListener('click')
+  public onClick(): void {
+    this.onSelect();
+  }
+
+  constructor(private injector: Injector) {}
 
   public ngAfterViewInit(): void {
     this.ngControl = this.injector.get(NgControl);
@@ -45,19 +54,17 @@ export class AppRadioComponent implements ControlValueAccessor, AfterViewInit {
     this.onTouched = fn;
   }
 
-  public writeValue(_: string | boolean | number) { }
+  public writeValue() {}
 
   public onSelect(): void {
-    if(
-      this.selectedValue() === this.value()
-    ) {
-      return
+    if (this.selectedValue() === this.value()) {
+      return;
     }
 
     this.onChange(this.value());
   }
 
   private get control(): FormControl {
-    return this.injector.get(NgControl).control as FormControl
+    return this.injector.get(NgControl).control as FormControl;
   }
 }

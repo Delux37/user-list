@@ -1,5 +1,5 @@
-import {User} from "../../models/users.model";
-import {EntityState} from "@ngrx/entity";
+import { User } from '../../models/users.model';
+import { EntityState } from '@ngrx/entity';
 
 export interface UsersState extends EntityState<User> {
   addUserLoading: boolean;

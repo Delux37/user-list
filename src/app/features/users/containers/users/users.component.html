@@ -23,7 +23,7 @@
         <ng-container *ngSwitchCase="'image'">
           <th mat-header-cell *matHeaderCellDef> {{ column | appUppercaseCapitalLetter }} </th>
           <td mat-cell *matCellDef="let element">
-            <img class="image" [src]="element[column]" onerror="this.src='assets/styles/img/not-found.jpeg';"/>
+            <img class="image" [src]="element[column]" onerror="this.src='assets/styles/img/not-found.jpeg';" alt="img"/>
           </td>
         </ng-container>
 

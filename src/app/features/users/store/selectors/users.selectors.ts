@@ -1,26 +1,25 @@
-import {createFeatureSelector, createSelector} from "@ngrx/store";
-import {UsersState} from "../states/users.states";
-import {adapter} from "../reducers/users.reducers";
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { UsersState } from '../states/users.states';
+import { adapter } from '../reducers/users.reducers';
 
 const getUsersFeatureState = createFeatureSelector<UsersState>('users');
 
 export const getUsersList = createSelector(
   getUsersFeatureState,
-  adapter.getSelectors().selectAll
-)
+  adapter.getSelectors().selectAll,
+);
 
 export const getUsersTotalPage = createSelector(
   getUsersFeatureState,
-  (state: UsersState) => state.totalPage
-)
+  (state: UsersState) => state.totalPage,
+);
 
 export const getCurrentUser = createSelector(
   getUsersFeatureState,
-  (state: UsersState) => state.currentUser
-)
+  (state: UsersState) => state.currentUser,
+);
 
 export const getUserEditAdded = createSelector(
   getUsersFeatureState,
-    (state: UsersState) => state.addUserLoaded || state.updateUserLoaded
-)
-
+  (state: UsersState) => state.addUserLoaded || state.updateUserLoaded,
+);
