@@ -1,0 +1,94 @@
+<div class="dialog" *ngIf="{ currentUser: currentUser$ | async } as data">
+  <div class="header">
+    <h1>
+      {{ data.currentUser ? 'Edit user' : 'Add new user' }}
+    </h1>
+    <button mat-mini-fab (click)="onClose()" color="warn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <form class="content" [formGroup]="form">
+    <div class="row">
+      <app-input
+        placeholder="First name"
+        formControlName="name"
+        [submitted]="formSubmitted()"
+      >
+
+      </app-input>
+      <app-input
+        placeholder="Last name"
+        formControlName="lastName"
+        [submitted]="formSubmitted()"
+      >
+
+      </app-input>
+      <app-input
+        placeholder="Identification number"
+        formControlName="identificationNumber"
+        [submitted]="formSubmitted()"
+      >
+
+      </app-input>
+      <app-input
+        placeholder="Mobile number"
+        formControlName="mobileNumber"
+        [submitted]="formSubmitted()"
+      >
+
+      </app-input>
+    </div>
+    <div class="row">
+      <form class="user-add-group" formGroupName="physicalAddress">
+        <app-input
+          placeholder="Country"
+          formControlName="country"
+          [submitted]="formSubmitted()"
+        >
+
+        </app-input>
+        <app-input
+          placeholder="City"
+          formControlName="city"
+          [submitted]="formSubmitted()"
+        >
+
+        </app-input>
+        <app-input
+          placeholder="Address"
+          formControlName="streetAdress"
+          [submitted]="formSubmitted()"
+        >
+
+        </app-input>
+      </form>
+
+      <div class="radio-group">
+        <app-radio
+          label="Female"
+          value="female"
+          formControlName="sex"
+          [selectedValue]="sexControlValue"
+          [submitted]="formSubmitted()"
+        >
+        </app-radio>
+        <app-radio
+          label="Male"
+          value="male"
+          formControlName="sex"
+          [submitted]="formSubmitted()"
+          [selectedValue]="sexControlValue"
+        >
+
+        </app-radio>
+      </div>
+
+    </div>
+  </form>
+  <div class="footer">
+    <button mat-raised-button (click)="onSave(!!data.currentUser, data.currentUser?.id)" color="primary">
+      {{ data.currentUser ? 'Save' : 'Add' }}
+    </button>
+    <button mat-raised-button (click)="onClose()" color="warn">Close</button>
+  </div>
+</div>

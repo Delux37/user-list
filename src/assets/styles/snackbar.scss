@@ -1,0 +1,17 @@
+.success-snackbar,
+.success-snackbar .mdc-snackbar__surface{
+  background-color: #98FB98 !important;
+
+  .mdc-snackbar__label {
+    color: #388E38 !important
+  }
+}
+
+.error-snackbar,
+.error-snackbar .mdc-snackbar__surface{
+  background-color: #F8D7DA !important;
+
+  .mdc-snackbar__label {
+    color: #C82333 !important
+  }
+}
