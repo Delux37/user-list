@@ -5,7 +5,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 In order to use this application first run 
 
 1) npm install.
-2) npx json-server src/db/db.json (run json server)
+2) npm run json-server (run json-server)
 3) ng s -o (start application)
 4) go to http://localhost:9100/
 
